@@ -5,8 +5,8 @@ const urlsToCache = [
   './style.css',
   './main.js',
   './manifest.json',
-  './icons/Icon-192.png',
-  './icons/Icon-512.png'
+  './icons/icon-192.png',   // ছোট হাতের
+  './icons/icon-512.png'    // ছোট হাতের
 ];
 
 self.addEventListener('install', event => {
@@ -24,4 +24,3 @@ self.addEventListener('fetch', event => {
     })
   );
 });
-
