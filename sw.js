@@ -5,13 +5,14 @@ const urlsToCache = [
   './style.css',
   './main.js',
   './manifest.json',
-  './icons/icon-192.png',   // ছোট হাতের
-  './icons/icon-512.png'    // ছোট হাতের
+  './icons/Icon-192.png',   // বড় হাতের
+  './icons/Icon-512.png'    // বড় হাতের
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
+      console.log('✅ Service Worker: ক্যাশ খোলা হয়েছে');
       return cache.addAll(urlsToCache);
     })
   );
