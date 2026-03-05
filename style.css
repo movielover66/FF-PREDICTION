@@ -1,0 +1,849 @@
+/* ==========================================================================
+   GOD-EYE NEO – COMPLETE UI REDESIGN + ANALYTICS DASHBOARD
+   (আপডেটেড ভার্সন – উন্নত ডিজাইন সহ)
+   ========================================================================== */
+:root {
+    --bg-deep: #030712;
+    --bg-card: #111827;
+    --bg-elevated: #1f2937;
+    --bg-inset: #2d3a4f;
+    --accent-blue: #3b82f6;
+    --accent-green: #22c55e;
+    --accent-red: #ef4444;
+    --accent-gold: #eab308;
+    --accent-purple: #a855f7;
+    --text-bright: #ffffff;
+    --text-soft: #cfd9e6;
+    --text-muted: #95a5b9;
+    --shadow-card: 0 8px 0 #0b0e13, 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-pressed: 0 3px 0 #0b0e13, 0 2px 8px rgba(0,0,0,0.4);
+    --radius-lg: 28px;
+    --radius-md: 20px;
+    --radius-sm: 16px;
+    --font-display: 'Orbitron', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle at 20% 30%, #1e293b, var(--bg-deep));
+    color: var(--text-bright);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+.app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 12px;
+}
+
+/* ===== টাইপোগ্রাফি উন্নতি ===== */
+h1, h2, h3, h4, .pred-title, .digit, .badge strong,
+.analytics-subcard h5, .sidebar-header h3, .wallet-header,
+.prediction-card h4, .graph-card h4, .archive-card h4,
+.analytics-card h4, .admin-card h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.5px;
+}
+
+.digit {
+    font-size: 40px; /* ডিজিট আরও বড় */
+}
+
+/* ===== সাইডবার ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100%;
+    background: var(--bg-card);
+    border-right: 1px solid var(--bg-inset);
+    box-shadow: 5px 0 25px rgba(0,0,0,0.6);
+    transition: left 0.25s ease;
+    z-index: 1000;
+    padding: 20px;
+}
+.sidebar.open { left: 0; }
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--bg-inset);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+.sidebar-header h3 {
+    color: var(--accent-gold);
+}
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--accent-red);
+    font-size: 24px;
+    cursor: pointer;
+}
+.agent-list {
+    list-style: none;
+}
+.agent-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--bg-inset);
+    color: var(--text-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.agent-list li::before {
+    content: "●";
+    color: var(--accent-green);
+    font-size: 14px;
+}
+
+/* ===== টপ নেভ ===== */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.top-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 0 #0b0e13, 0 6px 18px rgba(0,0,0,0.5);
+}
+.status-indicator {
+    font-weight: 600;
+    color: var(--text-soft);
+    cursor: pointer;
+}
+.blink {
+    color: var(--accent-green);
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+.nav-links span {
+    margin-left: 16px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.nav-links span.active,
+.nav-links span:hover {
+    color: var(--accent-gold);
+}
+
+/* ===== ওয়ালেট বক্স ===== */
+.wallet-panel {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.wallet-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.wallet-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.wallet-header input {
+    background: var(--bg-elevated);
+    border: 1px solid var(--accent-green);
+    color: var(--accent-green);
+    width: 110px;
+    padding: 6px 12px;
+    border-radius: 40px;
+    text-align: right;
+}
+.bet-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.bet-item {
+    flex: 1;
+    text-align: center;
+}
+.bet-item label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+.bet-item input {
+    width: 100%;
+    background: var(--bg-elevated);
+    border: 1px solid var(--bg-inset);
+    color: #fff;
+    padding: 10px;
+    border-radius: 30px;
+    text-align: center;
+}
+.session-pl {
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--bg-inset);
+}
+
+/* ===== ব্যাজেস বক্স ===== */
+.badges {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.badge {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.badge:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.badge span {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+.badge strong {
+    font-size: 17px;
+}
+#conf-val { color: var(--accent-green); }
+#trap-text { color: var(--accent-green); }
+#trap-text.red-text { color: var(--accent-red); }
+
+/* ===== প্রেডিকশন বক্স ===== */
+.prediction-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.prediction-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.prediction-card h4 {
+    color: var(--accent-gold);
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.pred-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.pred-item {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 10px 2px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pred-item.guard {
+    background: linear-gradient(145deg, var(--bg-elevated), #1f2633);
+    border-left: 3px solid var(--accent-gold);
+}
+.pred-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #0b0e13, 0 4px 12px rgba(0,0,0,0.5);
+}
+.pred-item .label {
+    font-size: 9px;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 4px;
+}
+.digit {
+    font-size: 40px;
+    font-weight: 700;
+    color: #fff;
+}
+.patti-mini {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 6px;
+}
+.patti-mini span {
+    font-size: 10px;
+    background: var(--bg-inset);
+    border-radius: 6px;
+    padding: 2px;
+    color: var(--accent-green);
+}
+.logic-line {
+    font-size: 13px;
+    background: var(--bg-elevated);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    color: var(--accent-green);
+    border-left: 3px solid var(--accent-green);
+}
+
+/* ===== বাজি গ্রিড ===== */
+.baji-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.baji-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.baji-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.baji-box.pass { border-left: 4px solid var(--accent-green); }
+.baji-box.fail { border-left: 4px solid var(--accent-red); }
+.baji-box.active { border: 2px solid var(--accent-blue); }
+.baji-box .b-no {
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    font-size: 10px;
+    color: var(--text-muted);
+}
+.baji-box .b-patti {
+    font-size: 12px;
+    color: var(--accent-green);
+}
+.baji-box .b-digit {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* ===== টুডে সামারি ===== */
+.today-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 16px;
+}
+.today-summary-item {
+    flex: 1 0 22%;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    padding: 8px 2px;
+    text-align: center;
+    font-size: 12px;
+}
+.today-summary-item span {
+    color: var(--accent-gold);
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+/* ===== ইনপুট বক্স ===== */
+.dual-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.input-group {
+    flex: 1;
+}
+.input-group label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+.input-group input {
+    width: 100%;
+    padding: 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--bg-inset);
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 40px;
+}
+.input-group input:focus {
+    border-color: var(--accent-blue);
+    outline: none;
+}
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+.analyze-btn {
+    flex: 2;
+    background: var(--accent-blue);
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 16px;
+    border-radius: 40px;
+    box-shadow: 0 4px 0 #1a3e6b;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.analyze-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #1a3e6b, 0 4px 12px rgba(0,0,0,0.5);
+}
+.analyze-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #1a3e6b;
+}
+.ctrl-btn {
+    flex: 1;
+    background: var(--bg-elevated);
+    border: 1px solid var(--bg-inset);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: transform 0.1s ease, background 0.1s ease;
+}
+.ctrl-btn:hover {
+    transform: translateY(-2px);
+    background: var(--bg-inset);
+}
+.ctrl-btn.reset { color: var(--accent-red); }
+.ctrl-btn.undo { color: var(--accent-gold); }
+.ctrl-btn:active {
+    background: var(--bg-inset);
+    transform: translateY(2px);
+}
+
+/* ===== গ্রাফ বক্স ===== */
+.graph-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.graph-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.graph-card h4 {
+    color: var(--accent-gold);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 140px;
+    border-bottom: 2px solid var(--bg-inset);
+}
+.bar {
+    width: 9%;
+    background: linear-gradient(to top, var(--accent-blue), var(--accent-green));
+    border-radius: 6px 6px 0 0;
+    position: relative;
+}
+.bar::after {
+    content: attr(data-val);
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--accent-green);
+}
+.bar.high-load {
+    background: linear-gradient(to top, var(--accent-red), var(--accent-gold));
+}
+
+/* ===== আর্কাইভ বক্স ===== */
+.archive-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.archive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.archive-card h4 {
+    color: var(--accent-gold);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+.archive-list {
+    max-height: 350px;
+    overflow-y: auto;
+}
+.archive-list::-webkit-scrollbar {
+    width: 8px;
+}
+.archive-list::-webkit-scrollbar-track {
+    background: var(--bg-inset);
+    border-radius: 12px;
+}
+.archive-list::-webkit-scrollbar-thumb {
+    background: var(--accent-green);
+    border-radius: 12px;
+    box-shadow: 0 0 12px var(--accent-green);
+}
+
+.old-result-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.old-result-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 #0b0e13, 0 6px 15px rgba(0,0,0,0.6);
+}
+.old-date {
+    color: var(--accent-gold);
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--bg-inset);
+    padding-bottom: 4px;
+}
+.old-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 3px;
+}
+.old-baji {
+    background: var(--bg-inset);
+    border-radius: 6px;
+    padding: 4px 1px;
+    text-align: center;
+}
+.old-patti {
+    display: block;
+    font-size: 8px;
+    color: var(--accent-green);
+}
+.old-digit {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* ===== অ্যাডমিন ===== */
+.admin-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+}
+.admin-card h3 {
+    color: var(--accent-gold);
+    margin-bottom: 20px;
+}
+
+/* ========== নতুন ইন্টেলিজেন্স মনিটর স্টাইল ========== */
+.analytics-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-top: 16px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.analytics-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 #0b0e13, 0 8px 20px rgba(0,0,0,0.6);
+}
+.analytics-subcard {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 14px;
+    border-left: 3px solid var(--accent-blue);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.analytics-subcard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 #0b0e13, 0 4px 12px rgba(0,0,0,0.5);
+}
+.analytics-subcard h5 {
+    color: var(--accent-gold);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+/* পারফরম্যান্স টেবিল */
+.analytics-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.analytics-table th {
+    text-align: left;
+    color: var(--text-muted);
+    font-weight: normal;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--bg-inset);
+}
+.analytics-table td {
+    padding: 4px 0;
+}
+.analytics-table .agent-name {
+    color: var(--accent-gold);
+}
+.analytics-table .accuracy-high {
+    color: var(--accent-green);
+    font-weight: bold;
+}
+.analytics-table .accuracy-low {
+    color: var(--accent-red);
+    font-weight: bold;
+}
+
+#accuracy-trend-container canvas,
+#digit-frequency-container canvas {
+    width: 100% !important;
+    height: auto !important;
+    background: var(--bg-inset);
+    border-radius: var(--radius-sm);
+    padding: 5px;
+}
+
+/* স্লাইডার */
+input[type=range] {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-inset);
+    border-radius: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    margin: 10px 0;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* এক্সপোর্ট বাটন */
+.export-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-green);
+    border: none;
+    border-radius: 30px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 #0a5a3a, 0 4px 12px rgba(0,0,0,0.4);
+}
+.export-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #0a5a3a;
+}
+
+/* টগল বাটন */
+.toggle-analytics {
+    background: none;
+    border: none;
+    color: var(--accent-blue);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.toggle-analytics:hover {
+    color: var(--accent-green);
+    transform: scale(1.1);
+}
+
+/* লোডার অ্যানিমেশন */
+.loader {
+    border: 4px solid var(--bg-inset);
+    border-top: 4px solid var(--accent-blue);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* টাচ হাইলাইট কমানো */
+.num-key, .ctrl-btn, .analyze-btn, .badge, .baji-box,
+.pred-item, .analytics-subcard, .old-result-card, .export-btn,
+.toggle-analytics {
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3);
+}
+
+/* ইউটিলিটি */
+.hidden { display: none !important; }
+
+/* ===== মিনি স্প্লিট স্ক্রিন ভিউয়ার ===== */
+.mini-viewer-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: transform 0.2s, background 0.2s;
+}
+.mini-viewer-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent-green);
+}
+.mini-viewer-btn i {
+    pointer-events: none;
+}
+
+.mini-viewer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+.mini-viewer-container {
+    width: 90%;
+    height: 85%;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--accent-blue);
+}
+.mini-viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--bg-inset);
+}
+.mini-viewer-header h4 {
+    color: var(--accent-gold);
+    font-family: var(--font-display);
+    font-size: 16px;
+    margin: 0;
+}
+.mini-viewer-header h4 i {
+    margin-right: 8px;
+}
+.mini-viewer-header div {
+    display: flex;
+    gap: 10px;
+}
+.mini-viewer-refresh-btn, .mini-viewer-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-soft);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+.mini-viewer-refresh-btn:hover {
+    background: var(--bg-inset);
+    color: var(--accent-green);
+}
+.mini-viewer-close-btn:hover {
+    background: var(--bg-inset);
+    color: var(--accent-red);
+}
+.mini-viewer-iframe {
+    flex: 1;
+    width: 100%;
+    background: white;
+}
