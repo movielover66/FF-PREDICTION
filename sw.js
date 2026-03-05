@@ -1,27 +1,16 @@
-const CACHE_NAME = 'godeye-cache-v1';
-const urlsToCache = [
+const CACHE_NAME = 'godeye-v2';
+const assets = [
   './',
   './index.html',
-  './style.css',
-  './main.js',
   './manifest.json',
-  './icons/Icon-192.png'
+  './icons/Icon-192.png',
+  './icons/Icon-512.png'
 ];
 
-// Install event
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
-  );
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(assets)));
 });
 
-// Fetch event
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
-  );
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
 });
