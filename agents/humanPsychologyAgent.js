@@ -13,8 +13,8 @@ export const humanPsychologyAgent = {
             isHoliday, 
             marketLoad, 
             lastWinLoss,
-            midTermTrend,    // নতুন
-            longTermTrend    // নতুন
+            midTermTrend,
+            longTermTrend
         } = sessionContext;
 
         let scores = Array(10).fill(0);
@@ -76,6 +76,19 @@ export const humanPsychologyAgent = {
             const recent = OperatorProfiler.getRecentPattern();
             recent.forEach((prob, d) => scores[d] += prob * 30);
         }
-        return scores.indexOf(Math.max(...scores));
+
+        // ডিবাগ লগ
+        console.log('🧠 humanPsychologyAgent scores before final:', scores);
+        
+        // যদি সব স্কোর শূন্য হয়, তাহলে ডিফল্ট ৫ দিন
+        const maxScore = Math.max(...scores);
+        if (maxScore === 0) {
+            console.log('🧠 All scores zero, defaulting to 5');
+            return 5;
+        }
+
+        const result = scores.indexOf(maxScore);
+        console.log('🧠 humanPsychologyAgent returning:', result);
+        return result;
     }
 };

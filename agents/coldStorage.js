@@ -3,7 +3,10 @@ export const coldStorageAgent = {
     weight: 2.0,
     analyze(archive) {
         // যদি আর্কাইভ না থাকে, তাহলে ডিফল্ট 3 রিটার্ন করি
-        if (!archive) return 3;
+        if (!archive) {
+            console.log("❄️ ColdStorageAgent: No archive, returning default 3");
+            return 3;
+        }
         
         try {
             // সব ডিজিটের কাউন্ট ট্র্যাক করা
@@ -24,6 +27,9 @@ export const coldStorageAgent = {
                 }
             });
             
+            // কাউন্ট লগ করুন
+            console.log("❄️ ColdStorageAgent digit counts:", digitCount);
+            
             // সবচেয়ে কম কাউন্ট যার (Cold Storage Digit)
             let minCount = Infinity;
             let coldDigit = 3; // ডিফল্ট
@@ -39,7 +45,7 @@ export const coldStorageAgent = {
             return coldDigit;
             
         } catch (e) {
-            console.error("ColdStorage error:", e);
+            console.error("❄️ ColdStorageAgent error:", e);
             return 3; // এরর হলে ডিফল্ট
         }
     }

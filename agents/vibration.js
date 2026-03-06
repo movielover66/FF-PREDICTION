@@ -2,14 +2,19 @@ export const vibrationAgent = {
     name: "Frequency Vibrator",
     weight: 2.2,
     analyze(archive) {
-        if (!archive || typeof archive !== 'object') return 6; // ডিফল্ট
+        if (!archive || typeof archive !== 'object') {
+            console.log("📳 VibrationAgent: No archive, returning default 6");
+            return 6;
+        }
         
         try {
             // ফ্রিকোয়েন্সি কাউন্টার
             const freq = {0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0};
             
-            // আর্কাইভের সব দিনের রেজাল্ট সংগ্রহ (শুধু সাম্প্রতিক ৩০ দিন ধরা যেতে পারে, কিন্তু সহজতার জন্য সব)
+            // আর্কাইভের সব দিনের রেজাল্ট সংগ্রহ
             const allDates = Object.keys(archive);
+            console.log(`📳 VibrationAgent: Scanning ${allDates.length} days from archive`);
+            
             allDates.forEach(date => {
                 const dayData = archive[date];
                 if (dayData && dayData.results) {
@@ -22,6 +27,9 @@ export const vibrationAgent = {
                     });
                 }
             });
+            
+            // ফ্রিকোয়েন্সি ডিস্ট্রিবিউশন লগ
+            console.log("📳 VibrationAgent frequency distribution:", freq);
             
             // সর্বোচ্চ ফ্রিকোয়েন্সি খুঁজি
             let maxCount = 0;
@@ -37,7 +45,7 @@ export const vibrationAgent = {
             return vibDigit;
             
         } catch (e) {
-            console.error("VibrationAgent error:", e);
+            console.error("📳 VibrationAgent error:", e);
             return 6;
         }
     }

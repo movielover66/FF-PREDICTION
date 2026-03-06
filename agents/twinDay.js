@@ -2,11 +2,16 @@ export const twinDayAgent = {
     name: "TwinDay Matcher",
     weight: 4.0,
     analyze(archive, currentDate) {
-        if (!archive || typeof archive !== 'object') return 7;
+        if (!archive || typeof archive !== 'object') {
+            console.log("👯 TwinDayAgent: No archive or invalid, returning 7");
+            return 7;
+        }
         
         try {
-            // currentDate ফরম্যাট DD-MM-YYYY (যেমন 02-03-2025)
-            // archive-এর কীগুলোও একই ফরম্যাটে আছে ধরে নিচ্ছি
+            console.log(`👯 TwinDayAgent: Searching for match for date: ${currentDate}`);
+            console.log(`👯 TwinDayAgent: Archive keys sample:`, Object.keys(archive).slice(0, 5));
+            
+            // exact match খোঁজা
             const exactMatch = archive[currentDate];
             if (exactMatch && exactMatch.results) {
                 const res = exactMatch.results;
@@ -15,7 +20,7 @@ export const twinDayAgent = {
                 return parseInt(digit) || 7;
             }
             
-            // যদি exact match না পাওয়া যায়, তবে সব কী-তে লুপ করে দেখি (কেস-ইনসেন্সিটিভ)
+            // Partial match খোঁজা (যদি ফরম্যাট একটু ভিন্ন হয়)
             const allDates = Object.keys(archive);
             const matchKey = allDates.find(key => key.includes(currentDate));
             if (matchKey && archive[matchKey] && archive[matchKey].results) {
@@ -28,7 +33,7 @@ export const twinDayAgent = {
             console.log(`👯 TwinDayAgent: No match for ${currentDate}, default 7`);
             return 7;
         } catch (e) {
-            console.error("TwinDayAgent error:", e);
+            console.error("👯 TwinDayAgent error:", e);
             return 7;
         }
     }

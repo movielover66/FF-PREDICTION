@@ -4,7 +4,6 @@ export const pattiDecayAgent = {
     weight: 3.2,
     analyze(pattiHistory) {
         // pattiHistory হলো currentResults (ডিজিটের অ্যারে)
-        // আমরা ডিজিট লেভেলে ডিকে অ্যানালাইসিস করতে পারি
         if (!pattiHistory || pattiHistory.length === 0) return 2;
         
         try {
@@ -14,6 +13,8 @@ export const pattiDecayAgent = {
             // ফ্রিকোয়েন্সি কাউন্ট
             const freq = Array(10).fill(0);
             valid.forEach(d => freq[d]++);
+            
+            console.log(`📉 PattiDecayAgent freq:`, freq);
             
             // সবচেয়ে কম ফ্রিকোয়েন্সির ডিজিট (ডিজিট বেশি ডিকে হয়েছে)
             let minFreq = Infinity;
